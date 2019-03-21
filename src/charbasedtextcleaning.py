@@ -30,20 +30,6 @@ def createsequences(tokenslist, length_of_seqs):
         sequences.append(seq)
     print('Total Sequences: {}'.format(len(sequences)))
     return sequences
-def cleancorpustolist(corpus):
-    s = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',' ', ''}
-    tokens = []
-    for document in corpus:
-        templist = text_to_word_sequence(document)
-        for word in templist:
-            tempwordlist=list(word)
-            boolval = False
-            for letter in tempwordlist:
-                if letter not in list(s):
-                    boolval=True
-            if boolval == False:
-                tokens.append(word)
-    return tokens
 
 def save_doc(lines, filename):
 	data = '\n'.join(lines)
