@@ -21,9 +21,12 @@ def generate_seq(model,mapping,seq_length,seed_text,n_chars):
         in_text += char
     return in_text
 # load the model
-model = load_model('charmodel.h5')
+model = load_model('charmodel3.h5')
 # load the mapping
 mapping = load(open('lookupdict.pkl', 'rb'))
  
-# test start of rhyme
-print(generate_seq(model, mapping, 5, 'alphabravo', 50))
+#print(generate_seq(model, mapping, 15, 'alphabet so', 150))
+#print(generate_seq(model, mapping, 15, 'icecream 1', 150))
+print(generate_seq(model, mapping, 15, 'time squar', 150))
+print(generate_seq(model, mapping, 15, 'dreams log', 150))
+print(generate_seq(model, mapping, 15, 'iphone 100', 150))

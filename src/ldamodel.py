@@ -36,8 +36,8 @@ if __name__ == "__main__":
     max_features=1000, stop_words=stopwords)
     X = vectorizer.fit_transform(corpus)
     
-    ldamodel = LatentDirichletAllocation(n_jobs=-1, n_components=8)
+    ldamodel = LatentDirichletAllocation(n_jobs=-1, n_components=20)
     ldamodel.fit(X)
     feature_names = vectorizer.get_feature_names()
     phi = ldamodel.components_
-    display_topics(phi, feature_names, 10)
+    print(display_topics(phi, feature_names, 10))

@@ -12,7 +12,7 @@ from RNNcharbased import load_doc, convertsequences, prepare_sequences
 
 
 if __name__ == "__main__":
-    model = load_model('charmodel.h5')
+    model = load_model('charmodel3.h5')
     raw_text = load_doc("char_sequences.txt")
     lookupdict, sequences = convertsequences(raw_text)
     vocab_size = len(lookupdict)
@@ -20,4 +20,5 @@ if __name__ == "__main__":
     X,y = prepare_sequences(sequences,len(lookupdict))
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
-    model.fit(X_train, y_train, epochs=5, verbose=1, validation_split=.2)
+    model.fit(X_train, y_train, epochs=2, verbose=1, validation_split=.2,batch_size=64)
+    model.save('charmodel3.h5')

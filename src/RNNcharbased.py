@@ -2,7 +2,7 @@ import numpy as np
 from pickle import dump
 from keras.utils import to_categorical
 from keras.models import Sequential
-from keras.layers import Dense
+from keras.layers import Dense, Dropout
 from keras.layers import LSTM
 from sklearn.model_selection import train_test_split
  
@@ -28,6 +28,7 @@ def prepare_sequences(sequences,vocab_size):
 	return X,y
 
 if __name__ == "__main__":
+
 	raw_text = load_doc("char_sequences.txt")
 	lookupdict, sequences = convertsequences(raw_text)
 	vocab_size = len(lookupdict)
@@ -37,13 +38,15 @@ if __name__ == "__main__":
 
 	#Actual Model preperation
 	model = Sequential()
-	model.add(LSTM(100, return_sequences=True, input_shape=(X.shape[1], X.shape[2]),kernel_initializer="he_normal",dropout=.2))#,kernel_initializer="he_normal"
-	model.add(LSTM(100, input_shape=(X.shape[1], X.shape[2]),kernel_initializer="he_normal",dropout=.2))
+	model.add(LSTM(350, return_sequences=True, input_shape=(X.shape[1], X.shape[2]),kernel_initializer="he_normal",dropout=.2))#,kernel_initializer="he_normal"
+	model.add(Dropout(0.2))
+	model.add(LSTM(350, input_shape=(X.shape[1], X.shape[2]),kernel_initializer="he_normal",dropout=.2))
+	model.add(Dropout(0.2))
 	
 	model.add(Dense(vocab_size, activation='softmax'))
 
 	model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-	model.fit(X_train, y_train, epochs=10, verbose=1, validation_split=.2)
+	model.fit(X_train, y_train, epochs=9, verbose=1, validation_split=.2,batch_size=64)
 	
-	model.save('charmodel.h5')
+	model.save('charmodel3.h5')
 	dump(lookupdict, open('lookupdict.pkl','wb'))
