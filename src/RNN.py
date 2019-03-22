@@ -53,8 +53,8 @@ if __name__ == "__main__":
     # define model
     model = Sequential()
     model.add(Embedding(vocab_size, 50, input_length=seq_length))
-    model.add(LSTM(100, return_sequences=True))
-    model.add(LSTM(100))
+    model.add(LSTM(250, return_sequences=True))
+    model.add(LSTM(250))
     model.add(Dense(100, activation='relu'))
     model.add(Dense(vocab_size, activation='softmax'))
     print(model.summary())
@@ -62,5 +62,8 @@ if __name__ == "__main__":
     # compile model
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     # fit model
-    model.fit(np.array(X), y, batch_size=128, epochs=5)
-        
+    model.fit(np.array(X), y, batch_size=300, epochs=5)
+    
+    model.save('model.h5')
+    # save the tokenizer
+    dump(tokenizer, open('tokenizer.pkl', 'wb'))
