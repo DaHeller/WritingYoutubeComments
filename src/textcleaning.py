@@ -3,7 +3,8 @@ import numpy as np
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.text import text_to_word_sequence
 
-df = pd.read_csv("../data/UScomments.csv",nrows=500)
+df = pd.read_csv("../data/UScomments.csv",nrows=5000)
+df = df.sample(n=500)
 corpus = df['comment_text'].values
 
 tokens = []
@@ -15,6 +16,7 @@ for document in corpus:
     for word in tokenized:
         tokens.append(word)
 for num in range(length, len(tokens)):
+    num = num
     seq = tokens[num-length:num]
     line = ' '.join(seq)
     sequences.append(line)

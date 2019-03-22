@@ -35,7 +35,6 @@ if __name__ == "__main__":
 	X,y = prepare_sequences(sequences,len(lookupdict))
 	X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-
 	#Actual Model preperation
 	model = Sequential()
 	model.add(LSTM(350, return_sequences=True, input_shape=(X.shape[1], X.shape[2]),kernel_initializer="he_normal",dropout=.2))#,kernel_initializer="he_normal"
