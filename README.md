@@ -51,9 +51,111 @@ To train a RNN like this requires sequences of text:
 
 From these sequences you split them into two categorys X and Y. X is the first 9 characters/words of the sequence and Y is the very last character/word of the sequence. From there you proceed to one hot encode every character/word into it's own vector. Once you've done all of that you're ready to create your model!
 
-Attempt #1 Word-Based Model: I originally started out trying to create a word-based network that used a sequence length of 51(X=50, y=1). 
-The shape of my model was  
+All in all I ended up with 8600 sequences.
+
+### Attempt #1 Word-Based Model: 
+I originally started out trying to create a word-based network that used a sequence length of 51(X=50, y=1).
+
+My vocabulary here was around 2600.
+
+The shape of my model 
+
 ![alt text](images/wordbasedsummary.png)
+
+
+Because our one hot encoded vectors are so large(1,2600~) we add an embedding layer to reduce the dimensionality saving ourselves a massive amount of time/calculations.
+
+Add two LSTM layers with 250 nodes per cell as these are very good at retaining past context based on cell state.
+
+Add one dense layer with 100 neurons to interpret the features extracted from the sequences. 
+
+Add one more dense layer with the amount of neurons equal to our vocabulary(2600~) using a softmax activation function so we actually generate a probability/prediction for each word. 
+
+Actually using the model to predict required me to enter a "seed text" to the model. The seed text is exactly what you would think a 50 word sequence and then you append the next predicted word onto the end of it.
+
+I trained this model for two epochs, which took me about 9 minutes per epoch.
+
+### My first model prediction
+
+![alt text](images/Wordmodelprediction.png)
+
+Can you tell which one my model wrote? The answer might shock you! Or not, it was the second one. 
+
+I believe there are multiple reasons why this model failed, the most obvious one is that I only ran two epochs. To that I would say you're absolutely right. Well that one is very obvious I believe one of the less obvious ones is the fact that I only had 250 neurons per layer in each LSTM cell, at a vocabulary of 2600 words I believe this was a gross underestimate of how many neurons I would need.
+
+You might be wondering why my model is only predicting 'the', I believe this is due to the accuracy of the model being so low. It locked in on one of the most common words in the sequences because it started out with such a high probability compared to all other words.
+
+With more training I absolutely believe this model could at least start to predict other words. But my poor computer with its 3gb of ram could barely handle these minimal hyper paramters so I decided to go a different route.
+
+### Attempt 2 Character Based Prediction
+With the character based model I used various sequence lengths 5,10,15 after all adjustments I ended up with a vocabulary of 62.
+
+
+lstm_3 (LSTM)                (None, 15, 350)           578200    
+____________________________________________________________
+dense_2 (Dense)              (None, 62)                21762     
+
+
+Total params: 1,581,362
+Trainable params: 1,581,362
+Non-trainable params: 0
+____________________________________________________________
+
+
+
+A very simple model with only two layers to begin with. I achieved a maximum accuracy of about 30% with this model which led to the same issue as above and predicting the same character over and over again.
+
+To tune this model I started out with changing the sequence lengths, from 5-10-15 as the sequence length approached 10 I started to recieve better accuracy, moving past 10 it would slowly decrease again. So I locked myself in on 10.
+
+I added more layers and increased the amount of neurons in my LSTM cells. Adding more neurons increased it's performance by a fair amount again with diminishing returns. More layers also contributed to the performance of the model. 
+
+I also changed the data I was working with, I believe a major issue I was having was the inconsistancys in the types of comments chosen from random videos. Because of this I selected one of the unique id's from the dataset which turned out to be a first look video at the IPhone X. This had around 400 comments that I was working with.
+
+Changing the Kernal Initalizer to "he_normal" helped as well. The kernal initalizer is the distrubtion used to randomly generate the first weights. An he normal distrubtion is a regular normal distribution centered around 0 but with a standard deviation of sqrt(2/#ofneuronsinlayer). This initializer has been found to help with vanishing gradients of activation functions like sigmoid and tanh. Here is a link to a paper written by Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun discussing this [Paper](https://arxiv.org/abs/1502.01852).
+
+After a few days of tweeking and turning knobs the model I ended up with this model structure.
+
+![alt text](images/charbased2.png)
+
+This model ended up with an accuracy of around 56% which finally let me break free of the repeating character prediction issues.
+
+### Some Predictions
+![alt text](images/charpredictions.png)
+
+The first 10 characters see the highlighted example are again the seed text and all the following charcaters are the actual predictions based on the previous 10 letters. 
+
+
+## Final Thoughts
+I'd like to take a minute to discuss why tuning this model was difficult. Firstly I think that a lot of issue came from the data itself, as youtube comments are sporadic in their nature in more ways than one. People misspell their words constantly, as well as flat out skipping important words that would add context to the sentence. Very few people use punctuation so the model cannot use periods as a predictive character. The actual message they are trying to convey is probably related to the content of the video about 1/5 of the time. This makes it difficult even with locking in on one specifc video like I did.
+
+Secondly I was very heavily limited computationally, each epoch taking about 5-7 minutes to run made for some difficulty checking if my tuning actually contributed to increasing the models performence. I do believe the model could perform a bit better but I don't have the time or equipment to keep persuing it at the moment. With better technology I would absolutely love to persue this project. I'd love to see if I could get the word based predictor working a bit better.
+
+Overall given a week I am very happy with the results I've produced as well as all that I've learned. 
+
+## Futue Work
+I'd like to improve these models more in the future when I have acces to AWS/Spark.
+
+I would love to have a text predictor that would spit out random words that aren't repeats of the previous one.
+
+
+## Acknowledgements
+I'd like to thank Jason Brownlee, PhD. for his excellent tutorials on setting up simple text predictor models. [Tutorial](https://machinelearningmastery.com/develop-character-based-neural-language-model-keras/)
+
+Also thanking Christopher Olah fpor his fantastic blog post on LSTMS. [Post](http://colah.github.io/posts/2015-08-Understanding-LSTMs/)
+
+Thanks to Danny, Kayla, and Frank for their support and guidance through the project!
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
