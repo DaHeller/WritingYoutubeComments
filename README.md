@@ -11,7 +11,7 @@ The dataset is a collection of webscraped comments from trending videos during t
 
 The data consists of four CSV files and two json files, For this project I worked within the "UScomments.csv" file which contains around 700,000 entries.
 
-The csv file has four columns "video_id", "comment_text", "likes" and "replies." Videoid is a small string of characters like "__YEG3bmU_WaI__" - which identifes the video "https://www.youtube.com/watch?v=__YEG3bmU_WaI__". "comment_text" is the actual text of the comments, "likes" is an integer value of how many likes the comment has, and "replies" is an integer value of how many replies the comments has.
+The csv file has four columns "video_id", "comment_text", "likes" and "replies." Videoid is a small string of characters like "__YEG3bmU_WaI__" - which identifes the video "https://www.youtube.com/watch?v=YEG3bmU_WaI". "comment_text" is the actual text of the comments, "likes" is an integer value of how many likes the comment has, and "replies" is an integer value of how many replies the comments has.
 
 I had one issue loading the data into pandas; some of the csv rows threw an error when read. They seemed to be some sort of header row from a different data file. Because it held no data I had no qualms with just deleting the rows out of the CSV file.
 ## EDA
