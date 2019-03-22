@@ -17,7 +17,7 @@ I had one issue loading the data into pandas; some of the csv rows threw an erro
 ## EDA
 My EDA was relatively boring, with 0 null values and mostly interested in the text there wasn't a whole lot to pursue. 
 
-There was about 33,000 unique "words" in my entire in all 50,000 rows.
+There was about 33,000 unique "words" in my entire corpus 50,000 rows.
 
 I did make a graph of the top 32 words that appeared the most.
 ![alt text](images/barplotwords.png) 
