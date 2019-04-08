@@ -49,7 +49,7 @@ Overall I'm happy with my quickly chosen LDA model.It displayed at least three i
 
 ## Recurrant Neural Network using Long Short Term Memory
 ### Preparing the Data
-I initially limited it to 500 randomly selected rows from the 50,000, so I could have a model trained by the end of the year. As these neural networks start to grow exponetinally the more data gets added.
+I initially limited it to first 500 rows from the total 50,000, so I could have a model trained by the end of the year. As these neural networks start to grow exponetinally the more data gets added. I encountered a few problems with this approach, a few of the comments in these 500 rows must have been nothing but N*g*er as it started to generate about 4000 sequences of only that word. Because of this I randomly selected 500 rows from the 50000 instead of taking only the first 500.
 
 To train a RNN like this requires sequences of text:
 
