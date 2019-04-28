@@ -15,11 +15,11 @@ The csv file has four columns "video_id", "comment_text", "likes" and "replies."
 
 I had one issue loading the data into pandas; some of the csv rows threw an error when read. They seemed to be some sort of header row from a different data file. Because it held no data I had no qualms with just deleting the rows out of the CSV file.
 ## EDA
-My EDA was relatively boring, with 0 null values and mostly interested in the text there wasn't a whole lot to pursue. 
+My EDA was easy, with 0 null values and being mostly interested in the text there wasn't a large amount of other avenues to pursue. 
 
 There was about 33,000 unique "words" in my entire corpus 50,000 rows.
 
-I did make a graph of the top 32 words that appeared the most.
+Heres a graph of the 32 words that appeared the most.
 ![alt text](images/barplotwords.png) 
 
 ## Latent Dirichlet Allocation
